@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" class="col-sm-2">
+	<div>
+		<a th:href="@{${product.URI}}" style="text-decoration: none;"> 
+			<img th:src="@{${product.photosImagePath}}" width="150" />
+			<br/>
+			<b>[[${product.shortName}]]</b>
+		</a>
+	</div>
+	
+	<div th:replace="product/product_fragment :: product_price"></div>
+</div>
+
+<div th:fragment="product_price" th:remove="tag">
+	<th:block th:if="${product.discountPercent &lt;= 0}">
+		<span>VNĐ [[${#numbers.formatDecimal(product.price, 1, 'COMMA', 2, 'POINT')}]]</span>	
+	</th:block>
+	
+	<th:block th:if="${product.discountPercent > 0}">
+		<span style="font-size: larger; color: darkred">VNĐ [[${#numbers.formatDecimal(product.discountPrice, 1, 'COMMA', 2, 'POINT')}]]</span>
+		<span><del>VNĐ [[${#numbers.formatDecimal(product.price, 1, 'COMMA', 2, 'POINT')}]]</del></span>	
+	</th:block>
+</div>
+
+</body>
+</html>

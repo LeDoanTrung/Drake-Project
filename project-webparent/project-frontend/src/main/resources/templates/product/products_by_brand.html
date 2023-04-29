@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<head th:replace="fragments :: page_head(${pageTitle}, 'tag')" />
+</head>
+
+<body>
+<div class="container-fluid">
+	<div th:replace="navigation :: menu"></div>
+	<div th:replace="navigation :: search_nav"></div>
+	<div th:replace="breadcrumb :: content2"></div>
+	
+	<div class="row">&nbsp;</div>
+
+	<th:block th:if="${brand.name} == 'CONVERSE' ">
+		<div >
+			<img th:src="@{/images/Logo/danh-muc-converse-0322.jpg}" width="100%" >
+		</div>
+	</th:block>
+
+	<th:block th:if="${brand.name} == 'VANS' ">
+		<div >
+			<img th:src="@{/images/Logo/danh-muc-vans-0322.jpg}" width="100%" >
+		</div>
+	</th:block>
+
+
+	<th:block th:if="${brand.name} == 'SUPRA' ">
+		<div >
+			<img th:src="@{/images/Logo/danh-muc-supra-0322a.jpg}" width="100%" >
+		</div>
+	</th:block>
+
+
+	<th:block th:if="${brand.name} == 'PALLADIUM' ">
+		<div >
+			<img th:src="@{/images/Logo/danh-muc-palladium-0322.jpg}" width="100%" >
+		</div>
+	</th:block>
+
+
+	<th:block th:if="${brand.name} == 'K-SWISS' ">
+		<div >
+			<img th:src="@{/images/Logo/danh-muc-kswiss-0322.jpg}" width="100%" >
+		</div>
+	</th:block>
+
+	<div class="row">&nbsp;</div>
+	<div class="row">
+		<th:block th:each="product : ${listProducts}">
+			<div th:replace="product/product_fragment :: content"></div>
+		</th:block>
+	</div>
+	
+	<div th:replace="fragments :: pagination('/b/' + ${brand.name}, 'products')"></div>
+	
+	<div th:replace="fragments :: footer"></div>
+</div>	
+</body>
+</html>

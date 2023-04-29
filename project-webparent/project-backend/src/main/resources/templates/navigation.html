@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+        <style>
+            hr {
+            width: 50%;
+            height: 20px;
+            background-color: red;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-width: 2px;
+            border-color: green;
+            }
+        </style>
+<body th:fragment="menu">
+    <form th:action="@{/logout}" method="post" th:hidden="true"
+    name="logoutForm">
+        <input type="submit" value="Logout">
+    </form>
+    
+    <div>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+            <a th:href="@{/}" class="navbar-brand">
+                <img th:src="@{/images/Logo/drake_logo.png}" alt="" width="100px">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="topNavbar" style="display: flex; justify-content: center; align-items: center;">
+                <ul class="navbar-nav">
+                    <th:block sec:authorize = "hasAuthority('Admin')">
+                        <li class="nav-item dropdown">
+                            <a th:href="@{'/users'}" class="nav-link dropdown-toggle" data-toggle="dropdown" >Users</a>
+                            <div class="dropdown-menu">
+                                <a th:href="@{/users/new}" class="dropdown-item">Create New</a>
+                                <a th:href="@{/users}" class="dropdown-item">View All</a>
+                            </div>
+                        </li>
+                    </th:block>
+
+                     <th:block sec:authorize = "hasAnyAuthority('Admin','Editor')">
+                        
+                        <li class="nav-item dropdown">
+                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:href="@{/categories}">Categories</a>
+                            <div class="dropdown-menu">
+                                  <a  class="dropdown-item" th:href="@{/categories/new}">Create New</a>
+                                 <a  class="dropdown-item" th:href="@{/categories/}">View All</a>
+                             </div>
+                        </li>
+                        
+                    </th:block>
+
+                    <th:block sec:authorize = "hasAnyAuthority('Admin','Editor')">
+                        
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:href="@{/brands}">Brands</a>
+                                <div class="dropdown-menu">
+                                    <a  class="dropdown-item" th:href="@{/brands/new}">Create New</a>
+                                    <a  class="dropdown-item" th:href="@{/brands/}">View All</a>
+                                </div>
+                            </li>
+                        
+                    </th:block>
+
+
+                    <th:block sec:authorize = "hasAnyAuthority('Admin','Editor')">
+                        
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:href="@{/products}">Products</a>
+                                <div class="dropdown-menu">
+                                    <a  class="dropdown-item" th:href="@{/products/new}">Create New</a>
+                                    <a  class="dropdown-item" th:href="@{/products/}">View All</a>
+                                </div>
+                            </li>
+                        
+                    </th:block>
+
+                    <th:block sec:authorize = "hasAnyAuthority('Admin','Editor')">
+                        
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/customers}">Customers</a>
+                            </li>
+                        
+                    </th:block>
+
+                    <th:block sec:authorize = "hasAnyAuthority('Admin','Editor')">
+                        
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/orders}">Orders</a>
+                            </li>
+                        
+                    </th:block>
+                    
+
+                     <li> <span class="fas fa-user fa-2x icon-silver"></span></li>
+
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                        th:href="@{/account}" sec:authentication="principal.fullName"><i class="fas fa-user"></i></a> <!--principle là đối tượng của Spring Security, cụ thể ở đây là ShoppingUserDetail-->
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" id="logoutLink" href="">Logout</a>
+                        </div>
+                     </li>
+                     
+                </ul>
+            
+
+           
+            
+            </div>
+        </nav>
+
+        <div class="drake-logo" style="margin: 20px;">
+            <div class="text-center">
+                <a th:href="@{/}" class="navbar-brand">
+                    <img th:src="@{/images/Logo/drake_logo.png}" alt="" width="200px">
+                </a>
+            </div>
+            <div>
+                <hr>
+            </div>
+            <div class="text-center">
+                <div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+                    <!-- Indicators/dots -->
+                    <!-- <div class="carousel-indicators">
+                      <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                      <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                      <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                    </div> -->
+                  
+                    <!-- The slideshow/carousel -->
+                    <div class="carousel-inner" width="100px" height="100px" style="font-family: 'Montserrat',sans-serif; font-weight: 400; cursor: pointer; font-size: 1.2em">
+                      <div class="carousel-item active">
+                        <p>Miễn phí vận chuyển toàn quốc</p>
+                      </div>
+                      <div class="carousel-item">
+                        <p>Email hỗ trợ: support@drake.vn</p>
+                      </div>
+                      <div class="carousel-item">
+                        <p>Đăng kí 1800.0080 để cập nhật chương trình khuyến mãi</p>
+                      </div>
+                    </div>
+                  
+                    <!-- Left and right controls/icons -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev" style="color: black;">
+                      <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next" style="color: black;">
+                      <span class="carousel-control-next-icon"></span>
+                    </button>
+                  </div>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+           
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="topNavbar" style="display: flex; justify-content: center; align-items: center;">
+                <ul class="navbar-nav">
+
+                     <th:block sec:authorize = "hasAnyAuthority('Admin','Editor')">
+                        
+                        <li class="nav-item dropdown" style="font-size: 25px;" >
+                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:href="@{/products/1/asc/name/vans/0}">VANS</a>
+                            <div class="dropdown-menu">
+                                 <a  class="dropdown-item" th:href="@{/products/1/asc/name/vans/0}">View All</a>
+                             </div>
+                        </li>
+                        
+                    </th:block>
+
+                    <th:block sec:authorize = "hasAnyAuthority('Admin','Editor')">
+                        
+                            <li class="nav-item dropdown" style="font-size: 25px;">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:href="@{/products/1/asc/name/converse/0}">CONVERSE</a>
+                                <div class="dropdown-menu">
+                                    <a  class="dropdown-item" th:href="@{/products/1/asc/name/converse/0}">View All</a>
+                                </div>
+                            </li>
+                        
+                    </th:block>
+
+                    <th:block sec:authorize = "hasAnyAuthority('Admin','Editor')">
+                        
+                        <li class="nav-item dropdown" style="font-size: 25px;">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:href="@{/products/1/asc/name/palladium/0}">PALLADIUM</a>
+                            <div class="dropdown-menu">
+    
+                                <a  class="dropdown-item" th:href="@{/products/1/asc/name/palladium/0}">View All</a>
+                            </div>
+                        </li>
+                
+                    </th:block>
+
+                    <th:block sec:authorize = "hasAnyAuthority('Admin','Editor')">
+                        
+                        <li class="nav-item dropdown" style="font-size: 25px;">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:href="@{/products/1/asc/name/k-swiss/0}">K-SWISS</a>
+                            <div class="dropdown-menu">
+                                <a  class="dropdown-item" th:href="@{/products/1/asc/name/k-swiss/0}">View All</a>
+                            </div>
+                        </li>
+                
+                    </th:block>
+
+                    <th:block sec:authorize = "hasAnyAuthority('Admin','Editor')">
+                        
+                    <li class="nav-item dropdown" style="font-size: 25px;">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:href="@{/products/1/asc/name/supra/0}">SUPRA</a>
+                        <div class="dropdown-menu">
+                            <a  class="dropdown-item" th:href="@{/products/1/asc/name/supra/0}">View All</a>
+                        </div>
+                    </li>
+            
+                </th:block>
+                </ul>
+            
+
+           
+            
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        function clearFilter () {
+          window.location = moduleURL;
+        }
+    </script>
+</body>
+</html>

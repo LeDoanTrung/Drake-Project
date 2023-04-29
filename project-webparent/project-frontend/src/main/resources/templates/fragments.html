@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="page_head(title,remove)" th:remove="${remove}">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+
+    <title>[[${title}]]</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <!-- https://fontawesome.com/download =>nhấn download Free For Web, copy webfonts, copy css/all.css vào folder fontawesome -->
+    <!-- https://fontawesome.com/search =>search từ khóa pointrait =>chọn <i class="fa-solid fa-image-portrait"></i> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/common_form.js}" defer></script>
+    <script th:src="@{/js/common.js}" defer></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-sCl80QlY1uOvghalCOhwVrLrGih5LZgBvJ9+0V0MfArQ2MhU3km6UO7sjizlKY6J5lLbi5jHu9XeRiOAz5dIBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="https://drake.vn/image/catalog/icon-1.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css}" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <!--Modal waring-->
+    <div th:fragment="modal_dialog" class="modal fade text-center" id="modalDialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalTitle">Warning</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <span id="modalBody"></span>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal confirm-->
+    <div th:fragment="confirm_modal" class="modal fade text-center" id="confirmModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <span id="confirmText"></span>
+                </div>
+                
+                <div class="modal-footer">
+                    <a class="btn btn-success" href="" id="yesButton">Yes</a>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <div th:fragment="footer" >
+        <br>
+        <br>
+        <div>
+            <hr>
+        </div>
+        <br>
+        <br>
+        <section id="" class="footer section-color">
+             <div class="container page-builder-ltr"> 
+                <div class="row row_35fo row-style "> 
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 col_q3xo col-style"> 
+                        <div class="responsive megamenu-style-dev footer-menu"> 
+                            <h3>Giới thiệu</h3> <nav class="navbar-default"> 
+                                <div class=" container-megamenu  horizontal"> 
+                                    <!-- <div class="navbar-header"> 
+                                        <button type="button" id="show-megamenu" data-toggle="collapse" class="navbar-toggle"> 
+                                            <span class="icon-bar"></span> 
+                                            <span class="icon-bar"></span> 
+                                            <span class="icon-bar"></span> 
+                                        </button> 
+                                    </div>  -->
+                                        <div class="megamenu-wrapper"> 
+                                            <!-- <span id="remove-megamenu" class="fa fa-times"></span>  -->
+                                            <div class="megamenu-pattern"> 
+                                                <div class="container"> 
+                                                    <ul class="megamenu" data-transition="slide" data-animationtime="500"> 
+                                                        <li class="">
+                                                            <p class="close-menu"></p>
+                                                            <!-- <a href="store" class="clearfix">  -->
+                                                                <strong> Về Drake </strong> 
+                                                            <!-- </a> -->
+                                                        </li> 
+                                                        <li class="">
+                                                            <p class="close-menu"></p>
+                                                            <!-- <a href="/news" class="clearfix">  -->
+                                                                <strong> Tin tức </strong> 
+                                                            <!-- </a> -->
+                                                        </li> 
+                                                        <li class="">
+                                                            <p class="close-menu"></p>
+                                                            <!-- <a href="/gioi-thieu-cua-hang" class="clearfix">  -->
+                                                                <strong> Cửa hàng </strong> 
+                                                            <!-- </a> -->
+                                                        </li> 
+                                                        <li class="">
+                                                            <p class="close-menu"></p>
+                                                            <!-- <a href="https://drake.vn/sale/" class="clearfix">  -->
+                                                                <strong> Khuyến mãi </strong> 
+                                                            <!-- </a> -->
+                                                        </li> 
+                                                    </ul> 
+                                                </div> 
+                                            </div> 
+                                        </div> 
+                                    </div> 
+                                </nav> 
+                            </div> 
+                        </div> 
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 col_cw14 col-style"> 
+                            <div class="responsive megamenu-style-dev footer-menu"> 
+                                <h3>Thông tin</h3> 
+                                <nav class="navbar-default"> 
+                                    <div class=" container-megamenu  horizontal"> 
+                                        <!-- <div class="navbar-header"> 
+                                            <button type="button" id="show-megamenu" data-toggle="collapse" class="navbar-toggle"> 
+                                                <span class="icon-bar"></span> <span class="icon-bar"></span> 
+                                                <span class="icon-bar"></span> 
+                                            </button> 
+                                        </div>  -->
+                                        <div class="megamenu-wrapper"> 
+                                            <!-- <span id="remove-megamenu" class="fa fa-times"></span>  -->
+                                            <div class="megamenu-pattern"> <div class="container"> 
+                                                <ul class="megamenu" data-transition="slide" data-animationtime="500"> 
+                                                    <li class="">
+                                                        <p class="close-menu"></p>
+                                                        <!-- <a href="chinh-sach-va-quy-dinh-chung" class="clearfix">  -->
+                                                            <strong> Chính sách và quy định chung </strong> 
+                                                        <!-- </a> -->
+                                                    </li> 
+                                                    <li class="">
+                                                        <p class="close-menu"></p>
+                                                        <!-- <a href="quy-dinh-va-hinh-thuc-thanh-toan" class="clearfix">  -->
+                                                            <strong> Quy định và hình thức thanh toán </strong> 
+                                                        <!-- </a> -->
+                                                    </li> 
+                                                    <li class="">
+                                                        <p class="close-menu"></p>
+                                                        <!-- <a href="chinh-sach-va-van-chuyen-giao-nhan" class="clearfix">  -->
+                                                            <strong> Chính sách vận chuyển, giao nhận </strong> 
+                                                        <!-- </a> -->
+                                                    </li> 
+                                                    <li class="">
+                                                        <p class="close-menu"></p>
+                                                        <!-- <a href="chinh-sach-bao-hanh-doi-tra" class="clearfix">  -->
+                                                            <strong> Chính sách bảo hành - đổi/trả </strong> 
+                                                        <!-- </a> -->
+                                                    </li> 
+                                                    <li class="">
+                                                        <p class="close-menu"></p>
+                                                        <!-- <a href="chinh-sach-bao-mat" class="clearfix">  -->
+                                                            <strong> Chính sách bảo mật </strong> 
+                                                        <!-- </a> -->
+                                                    </li> 
+                                                </ul> 
+                                            </div> 
+                                        </div> 
+                                    </div> 
+                                </div> 
+                            </nav> 
+                        </div> 
+                    </div> 
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 col_vulq col-style"> 
+                        <div class="responsive megamenu-style-dev footer-menu"> 
+                            <h3>Hỗ trợ</h3> 
+                            <nav class="navbar-default"> 
+                                <div class=" container-megamenu  horizontal"> 
+                                    <!-- <div class="navbar-header"> 
+                                        <button type="button" id="show-megamenu" data-toggle="collapse" class="navbar-toggle"> 
+                                            <span class="icon-bar"></span> 
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span> 
+                                        </button> 
+                                    </div>  -->
+                                    <div class="megamenu-wrapper"> 
+                                        <!-- <span id="remove-megamenu" class="fa fa-times"></span>  -->
+                                        <div class="megamenu-pattern"> 
+                                            <div class="container"> 
+                                                <ul class="megamenu" data-transition="slide" data-animationtime="500"> 
+                                                    <li class="">
+                                                        <p class="close-menu"></p>
+                                                        <!-- <a href="ho-tro-truc-tuyen" class="clearfix">  -->
+                                                            <strong> Hỗ trợ trực tuyến </strong> 
+                                                        <!-- </a> -->
+                                                    </li> 
+                                                    <li class="">
+                                                        <p class="close-menu"></p>
+                                                        <!-- <a href="" class="clearfix">  -->
+                                                            <strong> Đối tác </strong> 
+                                                        <!-- </a> -->
+                                                    </li> 
+                                                        <li class="">
+                                                            <p class="close-menu"></p>
+                                                            <!-- <a href="tuyen-dung" class="clearfix">  -->
+                                                                <strong> Tuyển dụng </strong> 
+                                                            <!-- </a> -->
+                                                        </li> 
+                                                            <li class="red">
+                                                                <p class="close-menu"></p>
+                                                                <!-- <a href="/kiem-tra-don-hang" class="clearfix">  -->
+                                                                    <strong> Kiểm tra đơn hàng </strong> 
+                                                                <!-- </a> -->
+                                                            </li> 
+                                                        </ul> 
+                                                    </div> 
+                                                </div> 
+                                            </div> 
+                                        </div> 
+                                    </nav> 
+                                </div> 
+                            </div> 
+                            <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 col_q51c col-style"> 
+                                <div class="module html-block"> 
+                                    <h3 class="modtitle">Hỗ trợ thanh toán</h3> 
+                                    <div class="modcontent "> 
+                                        <p><img alt="" src="https://drake.vn/image/catalog/icons/logopayment.jpg"></p> 
+                                    </div> 
+                                </div> 
+                                <div class="module html-block"> 
+                                    <h3 class="modtitle">FOLLOW US</h3> 
+                                    <div class="modcontent "> 
+                                        <p>
+                                            <a href="https://www.facebook.com/drakesneakervn" target="_blank">
+                                                <img alt="" src="https://drake.vn/image/catalog/icons/f_logo_RGB-Hex-Blue_512.jpg">
+                                            </a>
+                                            &nbsp;
+                                            <a href="https://www.instagram.com/drake.vn/" target="_blank">
+                                                <img alt="" src="https://drake.vn/image/catalog/icons/logo-IG-1.jpg">
+                                            </a>
+                                            &nbsp;
+                                            <a href="https://www.youtube.com/channel/UC19DKhxMU7F39yYZSNC193w/" target="_blank">
+                                                <img alt="" src="https://drake.vn/image/catalog/icons/youtube.png">
+                                            </a>
+                                            &nbsp;
+                                            <a href="https://www.lazada.vn/shop/drakevn" target="_blank">
+                                                <img alt="" src="https://drake.vn/image/catalog/icons/logo-lazada-2.png" style="height:50px; width:50px">
+                                            </a>
+                                            &nbsp;
+                                            <a href="https://shopee.vn/drakedangkhoa" target="_blank">
+                                                <img alt="" src="https://drake.vn/image/catalog/icons/Shopee.png" style="height:50px; width:50px">
+                                            </a>
+                                            &nbsp;
+                                            <a href="https://tiki.vn/cua-hang/drake-offical-store" target="_blank">
+                                                <img alt="" src="https://drake.vn/image/catalog/icons/logo-tiki1a.jpg">
+                                            </a>
+                                            &nbsp;
+                                        </p> 
+                                    </div> 
+                                </div> 
+                            </div> 
+                        </div> 
+                    </div> 
+                </section>
+        <p class="text-center m3" >Drake VN - Coppyright by Le Doan Trung &copy; DrakeVN</p>
+    </div>
+
+    <!--Column Link-->
+    <th th:fragment="column_link(moduleURL, fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+		<a class="text-white"
+			th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName}  +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">
+			[[${columnLabel}]]
+		</a>
+
+		<span th:if="${sortField == fieldName}"
+			th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}">
+        </span>
+	</th>
+
+    <th th:fragment="column_link2(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+        <a class="text-dark"   
+        th:href="@{'/categories/page/'+${currentPage}+ '?sortField='+ ${fieldName} + '&sortDir=' +${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+        [[${columnLabel}]]
+        </a>
+
+        <span th:if="${sortField == fieldName}"
+                th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}">
+        </span>
+    </th>
+
+    <th th:fragment="column_link3(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+        <a class="text-white"   
+        th:href="@{'/brands/page/'+${currentPage}+ '?sortField='+ ${fieldName} + '&sortDir=' +${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+        [[${columnLabel}]]
+        </a>
+        
+        <span th:if="${sortField == fieldName}"
+                th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}">
+        </span>
+    </th>
+
+    <th th:fragment="column_link4(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+        <a class="text-white"   
+        th:href="@{'/products/page/'+${currentPage}+ '?sortField='+ ${fieldName} + '&sortDir=' +${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">
+        [[${columnLabel}]]
+        </a>
+        
+        <span th:if="${sortField == fieldName}"
+                th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}">
+        </span>
+    </th>
+
+    <!--User Photos-->
+    <div th:fragment="user_photos" th:remove="tag">
+		<span th:if="${user.photos == null}" class="fas fa-portrait fa-3x icon-silver"></span>
+
+		<img th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" style="width: 100px" />
+	</div>
+
+    <!--Brand Photos-->
+    <div th:fragment="brand_logos" th:remove="tag">
+        <span th:if="${brand.logos == null}" class="fa fa-portait fa-3x icon-silver"></span>
+        <img th:if="${brand.logos != null}" th:src="@{${brand.photosImagePath}}" alt="" style="width: 100px;">
+    </div>
+
+    <!--Category Photos-->
+    <div th:fragment="category_image" th:remove="tag">
+        <img th:src="@{${category.photosImagePath}}" alt="" style="width: 100px;">
+    </div>
+
+    <!--Product Photos-->
+    <div th:fragment="product_mainImage" th:remove="tag">
+        <span th:if="${product.mainImage == null}" class="fa fa-portait fa-3x icon-silver"></span>
+        <img th:if="${product.mainImage != null}" th:src="@{${product.photosImagePath}}" alt="" style="width: 100px;">
+    </div>
+
+
+    <!--Enabled-->
+    <div th:fragment="status(enabled, entityName, entityURL)" th:remove="tag">
+		<a th:if="${enabled == true}" class="fas fa-check-circle fa-2x icon-green"
+			th:href="@{${entityURL} + '/enabled/false'}" th:title="'Disable this ' + ${entityName}"></a>
+
+		<a th:if="${enabled == false}" class="fas fa-circle fa-2x icon-dark" th:href="@{${entityURL} + '/enabled/true'}"
+			th:title="'Enable this ' + ${entityName}"></a>
+	</div>
+
+    <!--Edit-->
+    <div th:fragment="edit(entityName, editURL)" th:remove="tag">
+		<a class="fas fa-edit fa-2x icon-green" th:href="@{${editURL}}" th:title="'Edit this ' + ${entityName}"></a>
+	</div>
+
+
+    <!--Delete-->
+	<div th:fragment="delete(entityName, entityId, deleteURL, visible)" th:remove="tag">
+		<th:block th:if="${visible}"> 
+			<a class="fas fa-trash fa-2x icon-dark link-delete" th:href="@{${deleteURL}}" th:entityId="${entityId}"
+				th:title="'Delete this ' + ${entityName}"></a>
+		</th:block>
+	</div>
+	
+
+
+    <!--Search Form-->
+
+    <div th:fragment="search_form(moduleURL)" th:remove="tag">
+        <form th:action="@{${moduleURL} + '/page/1'}" class="form-inline m-3">
+            <input type="hidden" name="sortField" th:value="${sortField}" />
+            <input type="hidden" name="sortDir" th:value="${sortDir}" />
+            
+            Filter:&nbsp;
+            <input type="search" name="keyword" th:value="${keyword}" class="form-control" required/>
+            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+            </button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-secondary" onclick="clearFilter()">
+                <i class="fas fa-eraser"></i>
+            </button>
+        </form>
+    </div>
+
+
+    <!--Searching-->
+	<div th:fragment="search_form_and_message(moduleURL)">
+		<form th:action="@{${moduleURL}}" class="form-inline m-3">
+			<input type="hidden" name="sortField" th:value="${sortField}" />
+
+			<input type="hidden" name="sortDir" th:value="${sortDir}" />
+
+			Filter:&nbsp;
+			<input type="search" name="keyword" th:value="${keyword}" class="form-control" required placeholder="Tìm kiếm"/>
+			&nbsp;&nbsp;
+
+			<button type="submit" class="btn btn-primary">
+				<i class="fas fa-search"></i>
+			</button>
+			&nbsp;&nbsp;
+
+			<button type="button" class="btn btn-secondary" onclick="clearFilter()">
+				<i class="fas fa-eraser"></i>
+			</button>
+		</form>
+		<div th:if="${message != null}" class="alert alert-success text-center">
+			[[${message}]]
+		</div>
+	</div>
+
+
+    <div th:fragment="search_form_and_message2(entity)" >
+        
+        <form th:action="@{${entity}+'/page/1'}" class="form-inline m-3" id="searchForm">
+            <input type="hidden" name="sortField" th:value="${sortField}" />
+            <input type="hidden" name="sortDir" th:value="${sortDir}" />
+
+            Category:&nbsp;
+          
+                 <select class="form-control" name="categoryId" id="dropdownCategory">
+                            <option value="0">All Categories</option>
+                            <th:block th:each="cate : ${listCategories}">
+                                <option th:value="${cate.id}" th:selected="(${categoryId} == ${cate.id})">[[${cate.name}]]</option>
+                            </th:block>
+                </select>
+                       
+            
+
+            &nbsp;Filter:&nbsp;
+            <input type="search" name="keyword" th:value="${keyword}" class="form-control" required>
+            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+            </button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-secondary" onclick="clearFilter()">
+                <i class="fas fa-eraser"></i>
+            </button>
+        </form>
+    
+   
+
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    
+</div>
+
+    <!--Pagination-->
+	<div th:fragment="pagination(entityLink, entityName)">
+        <div class="text-center m-1" th:if ="${totalItems > 0}">  <!-- totalItems = 23 -->
+            <span>Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+        </div>
+        <div class="text-center m-1" th:unless="${totalItems > 0}"> <!-- unless ngược lại với if -->
+            <span>No [[${entityName}]] found</span>
+        </div>
+
+        <div th:if="${totalPages > 1}"> <!-- nếu tổng số trang > 1 thì mới hiển thị pagination -->
+            <nav>
+                <!-- First, Previous, Next, Last là disabled  -->
+                <!-- 1,2,3,... là active -->
+
+                <ul class="pagination justify-content-center flex-wrap"> <!-- flex-wrap để xuống dòng khi màn hình nhỏ -->
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a th:replace="fragments :: page_link(${entityLink} ,1, 'First')"></a>
+                    </li>
+
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a th:replace="fragments :: page_link(${entityLink},${currentPage - 1}, 'Previous')"></a>
+                    </li>
+
+                    <li th:class="${currentPage != i ? 'pageItem' : 'page-item active'}"
+                        th:each="i : ${#numbers.sequence(1, totalPages)}"> <!-- number.sequence của thymleaf-->
+                        <a th:replace="fragments :: page_link(${entityLink},${i}, ${i})"></a>
+                    </li>
+
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a th:replace="fragments :: page_link(${entityLink},${currentPage + 1}, 'Next')"></a>
+                    </li>
+
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                       <a th:replace="fragments :: page_link(${entityLink},${totalPages}, 'Last')"></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+    <!--Page Link-->
+    <a th:fragment="page_link(moduleURL,pageNum, label)" class="page-link"
+    th:href="@{${moduleURL}+'/page/'+${pageNum}+ '?sortField='+${sortField}+'&sortDir=' +${sortDir} + 
+    ${keyword!=null ? '&keyword=' + keyword: ''}}">[[${label}]]</a>
+
+
+    <div th:fragment="format_currency(amount)" th:remove="tag">
+        <span th:remove="tag">VNĐ </span>[[${#numbers.formatDecimal(amount, 1, 'COMMA', 2, 'POINT')}]]
+    </div>
+            
+    <div th:fragment="format_time(dateTime)" th:remove="tag">
+        <span th:text="${#dates.format(dateTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+    </div>	
+    
+    <div th:fragment="currency_input(amount)" th:remove="tag">
+        <input type="text" readonly class="form-control" th:value="${'$ ' + #numbers.formatDecimal(amount, 1, 'COMMA', 2, 'POINT')}">
+    </div>	
+
+</body>

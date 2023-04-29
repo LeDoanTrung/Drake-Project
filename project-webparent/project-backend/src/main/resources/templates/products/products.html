@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Products - Shopping Cart Admin','none')"/>
+<body>
+
+
+   <div class="container-fluid">
+    
+        <div th:replace="navigation :: menu"></div>
+
+        <div class="exporter"> 
+            <h2 class="text-center">Manage Products</h2>
+            <a th:href="@{/products/new}" class="fas fa-folder-plus fa-2x icon-dark mr-2"></a>
+            <a th:href="@{/products/export/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a>
+        </div>
+
+        
+
+        <!--/users/page/1?sortField=firstName&sortDir=asc@keyword=bruce-->
+        <!-- name của input sẽ thành các param trên đường dẫn -->
+        <!-- Các thẻ input sẽ được chuyển thành Param -->
+        <!-- $ để lấy giá trị từ bên Model -->
+        <!-- Method Dạng GET sẽ chuyển các input thành các PARAM sau dấu chấm hỏi trên đường dẫn -->
+        
+        <div th:replace="fragments :: search_form_and_message2('/products')" />
+
+        <div class="full-details">
+            <table class="table table-bordered table-striped table-hover table-reponsive-xl">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="hideable-column">
+                            <th th:replace="fragments :: column_link4('id', 'Product ID', 'tag')"></th>
+                        </th>
+
+                        <th>Main Image</th>
+
+                        <th class="hideable-column">
+                            <th th:replace="fragments :: column_link4('name', 'Product Name', 'tag')"></th>
+                        </th>
+                     
+                        <th>Brands</th>
+
+                        <th>Category</th> 
+
+                        <th th:replace="fragments :: column_link4('enabled', 'Enabled', 'none')"></th>
+
+                        <th>
+                            <span>Details</span>
+                              &nbsp; &nbsp; &nbsp;  
+                            <span>Edit</span>
+                              &nbsp; &nbsp; &nbsp;   
+                            <span>Delete</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${listProducts}">
+
+                        <td class="hideable-column">[[${product.id}]]</td>
+                        <td>
+                            <div th:replace="fragments :: product_mainImage"/>
+                        </td>
+                        <td class="hideable-column">
+                            <a class="link-detail" 
+                            th:href="@{'/products/detail/'+${product.id}}" 
+                            th:title="${product.name}">[[${product.name}]]</a></td>
+
+                        <td>
+                            <span class="badge badge-secondary">[[${product.brand}]]</span>
+                        </td>
+                        
+
+                        <td>
+                                <span class="badge badge-secondary">[[${product.category}]]</span>
+                        </td>
+
+                        <td>
+                            <div th:replace="fragments :: status(${product.enabled}, 'products', '/products/'+${product.id})" />
+
+                        </td>
+
+                        <td>
+                            <a class="fa fa-file fa-2x icon-green link-detail"
+							th:href="@{'/products/detail/' + ${product.id}}"
+							title="View details of this product"
+						    ></a>
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                            <div th:replace="fragments :: edit('product', '/products/edit/' + ${product.id})" />
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                            <div th:replace="fragments :: delete('product', ${product.id},'/products/delete/' + ${product.id}, true)" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="less-details ">
+            <div class="row m-1" th:each="product : ${listProducts}">
+
+                <div class="col-4">
+                    <div th:replace="fragments :: product_mainImage"/>
+                </div>
+
+                <div class="col-8">
+                    <div > <a class="link-detail" th:href="@{'/products/detail/'+${product.id}}" th:title="${product.name}">[[${product.name}]]</a></div>
+                    <div > [[${product.category}]]</div>
+                    <div class="mt-2">
+                        <a class="fa fa-file fa-2x icon-green link-detail"
+							th:href="@{'/products/detail/' + ${product.id}}"
+							title="View details of this product"
+						    ></a>
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                        <div th:replace="fragments :: edit('product', '/products/edit/' + ${product.id})" />
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                        <div th:replace="fragments :: delete('product', ${product.id},'/products/delete/' + ${product.id}, true)" />
+                        
+                    </div>
+                    <div>&nbsp;</div>
+            </div>
+        </div>
+   
+        
+
+        </div>
+
+       
+
+        <div th:replace="modal_fragments :: confirm_modal"></div>
+
+        <div class="modal fade" id="detailModal">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="fragments :: pagination('products','/products')"></div>
+        
+        <div th:replace="fragments :: footer"></div>
+        
+</div>
+
+   <script th:src="@{/js/common_list.js}"></script>
+   <script type ="text/javascript">
+    moduleURL = "[[@{/products}]]";
+
+    $(document).ready(function (){
+        $(".link-delete").on("click",function(e){
+            e.preventDefault();  //nếu ko có dòng này sẽ gọi user/delete/...
+            showDeleteConfirmModal($(this),"product");
+        });
+
+        $(".link-detail").on("click",function(e){
+            e.preventDefault();
+            linkDetailURL = $(this).attr("href");
+            $('#detailModal').modal("show").find(".modal-content").load(linkDetailURL);
+        })
+    });
+
+    $("#dropdownCategory").on("change", function(){
+        $("#searchForm").submit();
+    })
+   </script>
+</body>
+ </html>
+   

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!-- parent của shoppingcart-backend là spring-boot-starter-webparent -->
+	<parent>
+		<groupId>com.drake</groupId>
+		<artifactId>project-webparent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>project-backend</artifactId>
+	<name>project-backend</name>
+	<description>project-backend</description>
+
+	<properties>
+		<java.version>11</java.version>
+	</properties>
+	
+	<!-- 
+	Cấu trúc project như sau:
+	shoppingcart-project (root project pom)
+		shoppingcart-common (module 1(jar))	=>chứa những class,interface,... dùng chung cho backend và frontend
+		shoppingcart-webparent (module 2(pom)) =>chứa những dependencies dùng chung cho backend và frontend
+			shoppingcart-backend (module 2a(jar))
+			shoppingCart-frontend (module 2b(jar))
+			
+	Tạo shoppingcart-project
+	Tạo shoppingcart-common và copy vào bên trong folder shoppingcart-project
+	Tạo shoppingcart-webparent và copy vào bên trong folder shoppingcart-project
+	Tạo shoppingcart-backend và copy vào bên trong folder shoppingcart-project
+	Tạo shoppingcart-frontend và copy vào bên trong folder shoppingcart-project	
+	
+	Thay đổi file pom.xml của tất cả project
+	-->
+	
+	<dependencies>
+		<!-- gói jar chứa server chạy app -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+		</dependency>	
+		
+		<!-- gói jar để xuất file csv -->	
+		<dependency>
+			<groupId>net.sf.supercsv</groupId>
+			<artifactId>super-csv</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+		
+		<!-- gói jar để xuất file excel -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		
+			<!-- gói jar để xuất file pdf -->
+		<dependency>
+			<groupId>com.github.librepdf</groupId>
+			<artifactId>openpdf</artifactId>
+			<version>1.3.8</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/*.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

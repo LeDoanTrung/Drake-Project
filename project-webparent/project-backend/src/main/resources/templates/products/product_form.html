@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <head th:replace="fragments :: page_head(${pageTitle},'none')"/>
+    <link rel="stylesheet" th:href="@{/richText/richtext.min.css}">
+    <script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+</head>
+
+
+<body>
+   <div class="container-fluid">
+
+        <div th:replace="navigation :: menu"></div>
+
+        <div> 
+            <h2 class="text-center">Manage Products - [[${pageTitle}]]
+            </h2>
+            
+        </div>
+        
+
+        <form th:action="@{/products/save}" method="post" style="max-width: 700px; margin: 0 auto;" th:object="${product}" 
+        enctype="multipart/form-data"  onsubmit="return checkNameUnique(this);">
+           
+            <!-- enctype="multipart/form-data" interact with images -->
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:if="${product.category != null}"
+            id="categoryId" th:value="${product.category.id}">
+
+            <div>
+                <ul class="nav nav-tabs" id="myTab" role="tabList">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#description" role="tab">Description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#images" role="tab">Images</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#details" role="tab">Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#shipping" role="tab">Shipping</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active p-3" id="overview" role="tabpanel">
+                        <div th:replace="products/product_overview :: content"></div>
+                    </div>
+                    <div class="tab-pane" id="description" role="tabpanel">
+                        <div th:replace="products/product_description :: content"></div>
+                    </div>
+                    <div class="tab-pane" id="images" role="tabpanel">
+                        <div th:replace="products/product_images :: content"></div>
+                    </div>
+                    <div class="tab-pane p-3" id="details" role="tabpanel">
+                        <div th:replace="products/product_details :: content"></div>
+
+                        <div>
+                            <input type="button" class="btn btn-secondary" value="Add More Detail"
+                            onclick="addNextDetailSection()">
+                        </div>
+                    </div>
+                    <div class="tab-pane p-3" id="shipping" role="tabpanel">
+                        <div th:replace="products/product_shipping :: content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input type="submit" value="Save" class="btn btn-primary m-3">
+                <input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel">
+            </div>
+            
+            
+           
+        </form>
+
+        <div class="modal fade text-center" id="modalDialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-tittle">Warning</h4>
+                        <button type="button" data-dismiss="modal" class="close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <span id="modalBody"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss ="modal">close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div th:replace="fragments :: footer"></div>
+
+   </div>
+
+
+   <script th:src="@{/js/common_form.js}"></script>
+   <script th:src="@{/js/product_form_images.js}"></script>
+   <script th:src="@{/js/product_form_details.js}"></script>
+
+   <script type="text/javascript">
+    MAX_FILE_SIZE = 502400;
+    moduleURL = "[[@{/products}]]";
+    defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
+    function checkNameUnique(form){
+        url = "[[@{/products/check_unique}]]";
+        productName = $("#name").val();
+        productId = $("#id").val();
+        productAlias = $("#alias").val();
+        csrfValue = $("input[name ='_csrf']").val();
+
+        params = {
+            id: productId,
+            name: productName,
+            alias: productAlias,
+            _csrf: csrfValue
+        };
+ 
+        $.post(url, params, function(response) {
+                if(response=="OK") {
+                    form.submit();
+                } else if (response=="DuplicateName") {
+                    // alert("There is another user having the email: " + userEmail);
+                    showWarningModal("There is another product having same name: " + productName);
+                }  else if (response=="DuplicateAlias") {
+                    // alert("There is another user having the email: " + userEmail);
+                    showWarningModal("There is another product having same alias: " + productAlias);
+                } else {
+                    // alert("Unknown response from server");
+                    showErrorModal("Unknown response from server");
+                }
+            }).fail(function() {
+                // alert("Could not connect to the server");
+                showErrorModal("Could not connect to the server");
+            })
+            return false;
+        }
+
+dropdownBrand = $("#brand");
+dropdownCate= $("#category");
+
+ $(document).ready(function(){
+    $("#shortDescription").richText();
+    $("#fullDescription").richText();
+
+
+     dropdownBrand.change(function(){
+        console.log("Brand changed");
+        dropdownCate.empty();
+        getCategories();
+    });
+
+    // call getCategory() initially to populate the category dropdown
+    getCategoriesForNewForm();
+});
+
+function getCategoriesForNewForm(){
+    catIdField = $("#categoryId");
+    editMode = false;
+    if(catIdField.length){
+        editMode = true;
+    }
+
+    if (!editMode) getCategories();
+}
+
+brandURL="[[@{/brands}]]";
+
+function getCategories() {
+    // get the ID of the selected brand
+    var brandId = $("#brand").val();
+   
+    // make an AJAX call to retrieve the categories for the selected brand
+    $.get(brandURL + "/" + brandId + "/category", function(listCategories) {
+        // iterate over the categories and add them to the category dropdown
+        $.each(listCategories, function(index, category) {
+            $("<option>").val(category.id).text(category.name).appendTo(dropdownCate);
+        });
+    });
+}
+
+   </script>
+
+</html>
+   

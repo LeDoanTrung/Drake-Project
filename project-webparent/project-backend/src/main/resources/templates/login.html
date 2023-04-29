@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập tài khoản Admin</title>
+    <link rel="shortcut icon" href="https://drake.vn/image/catalog/icon-1.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css}" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<style>
+    .singup {
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: block;
+  font-weight: bold;
+  font-size: x-large;
+  margin-top: 1.5em;
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 350px;
+  width: 300px;
+  flex-direction: column;
+  gap: 35px;
+  border-radius: 15px;
+  background: #e3e3e3;
+  box-shadow: 16px 16px 32px #c8c8c8,
+        -16px -16px 32px #fefefe;
+  border-radius: 8px;
+}
+
+.inputBox,
+.inputBox1 {
+  position: relative;
+  width: 250px;
+}
+
+.inputBox input,
+.inputBox1 input {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+  border: none;
+  color: #000;
+  font-size: 1em;
+  background: transparent;
+  border-left: 2px solid #000;
+  border-bottom: 2px solid #000;
+  transition: 0.1s;
+  border-bottom-left-radius: 8px;
+}
+
+.inputBox span,
+.inputBox1 span {
+  margin-top: 5px;
+  position: absolute;
+  left: 0;
+  transform: translateY(-4px);
+  margin-left: 10px;
+  padding: 10px;
+  pointer-events: none;
+  font-size: 12px;
+  color: #000;
+  text-transform: uppercase;
+  transition: 0.5s;
+  letter-spacing: 3px;
+  border-radius: 8px;
+}
+
+.inputBox input:valid~span,
+.inputBox input:focus~span {
+  transform: translateX(113px) translateY(-15px);
+  font-size: 0.8em;
+  padding: 5px 10px;
+  background: #000;
+  letter-spacing: 0.2em;
+  color: #fff;
+  border: 2px;
+}
+
+.inputBox1 input:valid~span,
+.inputBox1 input:focus~span {
+  transform: translateX(156px) translateY(-15px);
+  font-size: 0.8em;
+  padding: 5px 10px;
+  background: #000;
+  letter-spacing: 0.2em;
+  color: #fff;
+  border: 2px;
+}
+
+.inputBox input:valid,
+.inputBox input:focus,
+.inputBox1 input:valid,
+.inputBox1 input:focus {
+  border: 2px solid #000;
+  border-radius: 8px;
+}
+
+.enter {
+  height: 45px;
+  width: 100px;
+  border-radius: 5px;
+  border: 2px solid #000;
+  cursor: pointer;
+  background-color: transparent;
+  transition: 0.5s;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-bottom: 3em;
+}
+</style>
+<body>
+    
+  <div class="drake-logo" style="margin: 20px;">
+    <div class="text-center">
+        <a th:href="@{/}" class="navbar-brand">
+            <img th:src="@{/images/Logo/drake_logo.png}" alt="" width="200px">
+        </a>
+    </div>
+    <div>
+        <hr>
+    </div>
+    <div class="text-center">
+        <div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+            <!-- Indicators/dots -->
+            <!-- <div class="carousel-indicators">
+              <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+              <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+              <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+            </div> -->
+          
+            <!-- The slideshow/carousel -->
+            <div class="carousel-inner" width="100px" height="100px" style="font-family: 'Montserrat',sans-serif; font-weight: 400; cursor: pointer; font-size: 1.2em">
+              <div class="carousel-item active">
+                <p>Miễn phí vận chuyển toàn quốc</p>
+              </div>
+              <div class="carousel-item">
+                <p>Email hỗ trợ: support@drake.vn</p>
+              </div>
+              <div class="carousel-item">
+                <p>Đăng kí 1800.0080 để cập nhật chương trình khuyến mãi</p>
+              </div>
+            </div>
+          
+            <!-- Left and right controls/icons -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev" style="color: black;">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next" style="color: black;">
+              <span class="carousel-control-next-icon"></span>
+            </button>
+          </div>
+    </div>
+</div>
+
+
+    <div class="container-fluid text-center">
+
+        <br>
+        <br>
+
+        <!--cấu hình mặc định của form-->
+        <form th:action="@{/login}" method="post" style="max-width: 350px; margin: 0 auto">
+            <div th:if="${param.error}"> <!--param, session là tham số của Spring Security-->
+                <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p> <!--hiển thị lỗi khi log in-->
+            </div>
+
+            <div th:if="${param.logout}"> 
+                <p class="text-warning">You have been logged out</p>
+            </div>
+            
+            <div class="container">
+                <div class="card">
+                    <a class="singup">Đăng Nhập</a>
+
+
+                    <div class="inputBox1">
+                        <input type="email" name="email" required="required">
+                        <span class="user">Email</span>
+                    </div>
+        
+          
+        
+                    <div class="inputBox">
+                        <input type="password" name="password" required="required">
+                        <span>Password</span>
+                    </div>
+
+                    <div class="inputBox">
+                        <p>
+                            <input type="checkbox" name="remember-me"/> &nbsp;Remember Me <!--bắt buộc name phải là remember-me-->
+                        </p>
+
+                        <p>
+                          <input type="submit" value="Xác Nhận" class="btn btn-primary enter" />
+                        </p>
+                    </div>
+                     
+                    
+        
+                </div>
+            </div>
+        </form>
+        <br>
+        <br>
+
+       
+    </div>
+    <div th:replace="fragments :: footer"></div>
+</body>
+</html>

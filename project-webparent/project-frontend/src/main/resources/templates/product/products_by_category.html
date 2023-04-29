@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<head th:replace="fragments :: page_head(${pageTitle}, 'tag')" />
+</head>
+
+<body>
+<div class="container-fluid">
+	<div th:replace="navigation :: menu"></div>
+	<div th:replace="navigation :: search_nav"></div>
+	<div th:replace="breadcrumb :: content"></div>
+	
+
+	
+	<div class="row">&nbsp;</div>
+	<div class="row">
+		<th:block th:each="product : ${listProducts}">
+			<div th:replace="product/product_fragment :: content"></div>
+		</th:block>
+	</div>
+	
+	<div th:replace="fragments :: pagination('/c/' + ${category.alias}, 'products')"></div>
+	
+	<div th:replace="fragments :: footer"></div>
+</div>	
+</body>
+</html>

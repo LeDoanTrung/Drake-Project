@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Brands - Shopping Cart Admin','none')"/>
+<body>
+
+
+   <div class="container-fluid">
+    
+        <div th:replace="navigation :: menu"></div>
+
+        <div class="exporter"> 
+            <h2 class="text-center">Manage Brands</h2>
+            <a th:href="@{/brands/new}" class="fas fa-folder-plus fa-2x icon-dark mr-2"></a>
+            <a th:href="@{/brands/export/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a>
+        </div>
+
+        
+        
+        <div th:replace="fragments :: search_form_and_message('/brands')" />
+
+        <div class="full-details">
+            <table class="table table-bordered table-striped table-hover table-reponsive-xl">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="hideable-column">
+                            <th th:replace="fragments :: column_link3('id', 'Brand ID', 'tag')"></th>
+                        </th>
+
+                        <th>Logo</th>
+
+                        <th class="hideable-column">
+                            <th th:replace="fragments :: column_link3('name', 'Name', 'tag')"></th>
+                        </th>
+                     
+                        <th>Categories</th>
+
+                        <th>
+                            <span>Edit</span>
+                              &nbsp; &nbsp; &nbsp;   
+                            <span>Delete</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="brand : ${listBrands}">
+
+                        <td class="hideable-column">[[${brand.id}]]</td>
+                        <td>
+                            <div th:replace="fragments :: brand_logos"/>
+                        </td>
+                        <td class="hideable-column">[[${brand.name}]]</td>
+                        <td>
+                            <th:block th:each="category : ${brand.categories}">
+                                <span class="badge badge-secondary">[[${category.name}]]</span>
+                            </th:block>
+                        </td>
+                        <td>
+                            <div th:replace="fragments :: edit('brand', '/brands/edit/' + ${brand.id})" />
+                            &nbsp;&nbsp;
+                            <div th:replace="fragments :: delete('brand', ${brand.id},'/brands/delete/' + ${brand.id}, true)" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="less-details ">
+            <div class="row m-1" th:each="brand : ${listBrands}">
+
+                <div class="col-4">
+                    <div th:replace="fragments :: brand_logos"/>
+                </div>
+
+                <div class="col-8">
+                    <div > [[${brand.name}]]</div>
+                    <div > [[${brand.categories}]]</div>
+                    <div class="mt-2">
+                        <div th:replace="fragments :: edit('brand', '/brands/edit/' + ${brand.id})" />
+                        &nbsp;&nbsp;
+                        <div th:replace="fragments :: delete('brand', ${brand.id},'/brands/delete/' + ${brand.id}, true)" />
+                    </div>
+                    <div>&nbsp;</div>
+            </div>
+        </div>
+   
+        
+
+        </div>
+
+        <div th:replace="modal_fragments :: confirm_modal"></div>
+
+        <div th:replace="fragments :: pagination('brands','/brands')"></div>
+        
+        <div th:replace="fragments :: footer"></div>
+</div>
+   <script th:src="@{/js/common_list.js}"></script>
+   <script type ="text/javascript">
+    moduleURL = "[[@{/brands}]]";
+
+    $(document).ready(function (){
+        $(".link-delete").on("click",function(e){
+            e.preventDefault();  //nếu ko có dòng này sẽ gọi user/delete/...
+            showDeleteConfirmModal($(this),"brand");
+        });
+    });
+
+   </script>
+</body>
+ </html>
+   

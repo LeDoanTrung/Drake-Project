@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!-- parent của shoppingcart-webparent là spring-boot-starter-parent -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.1</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.drake</groupId>
+	<artifactId>project-webparent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+	<name>project-webparent</name>
+	<description>project-webparent</description>
+
+	<properties>
+		<java.version>11</java.version>
+	</properties>
+	
+	<modules><!-- khai báo modules chứa các project con bên trong -->
+		<module>project-backend</module>
+		<module>project-frontend</module>
+	</modules>
+
+ 	<!-- tất cả các dependency dùng chung cho shoppingcart-backend và shoppingcart-frontend sẽ được khai báo trong file pom.xml này -->
+	<dependencies>
+		<!-- gói jar để cấu hình đây là một web app -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<!-- gói jar để viết và chạy JUnit -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	
+		<!-- gói jar để sử dụng Spring Data JPA -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- gói jar để sử dụng Spring Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
+		<!-- gói jar để sử dụng Thymeleaf -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		
+		<!-- gói jar để sử dụng Spring Security bằng Thymeleaf  -->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+		</dependency>
+		
+		<!-- gói jar để kết nối tới mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- gói jar để sử dụng bootstrap -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>4.3.1</version>
+		</dependency>
+		
+		<!-- gói jar để sử dụng jquery -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>webjars-locator-core</artifactId>
+		</dependency>	
+		
+		<!-- vì shoppingcart-backend và shoppingcart-frontend đều sử dụng các class,interface,... của shoppingcart-common nên thêm dependency của shoppingcart-common trong file pom.xml này -->
+		<!-- lưu ý khi build maven của shoppingcart-common nó sẽ tạo gói jar trong folder .m2/repository/com/shoppingcart/shoppingcart-common/... đó là lý do có thể thêm dependency này -->
+		<!-- các thông tin khai báo trong pom.xml của shoppingcart-common
+			<groupId>com.shoppingcart</groupId>
+			<artifactId>shoppingcart-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		 -->
+		<dependency>
+			<groupId>com.drake</groupId>
+			<artifactId>project-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>		
+		</dependency>	
+	</dependencies>
+
+</project>
