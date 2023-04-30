@@ -38,7 +38,7 @@ public class ProductController {
 	@Autowired
 	private  CategoryService categoryService;
 	
-	@GetMapping("/products/")
+	@GetMapping("/products")
 	public String listAll(Model model) {
 		return listByPage(1, model, "name", "asc", null, null);
 	}
@@ -183,7 +183,7 @@ public class ProductController {
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
 		
-		return "/products/products";
+		return "products/products";
 	}
 	
 	@GetMapping("/products/{pageNum}/{sortDir}/{sortField}/{keyword}/{categoryId}")
@@ -226,7 +226,7 @@ public class ProductController {
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
 		
-		return "/products/products";
+		return "products/products";
 	}
 	@GetMapping("/products/export/csv")
 	public void exportCSV(HttpServletResponse response) throws IOException{

@@ -31,7 +31,7 @@ public class CategoryController {
 	@Autowired
 	private CategoryService service;
 	
-	@GetMapping("/categories/")
+	@GetMapping("/categories")
 	public String listAll(Model model) {
 //		List<Category> listCategories = service.listAll();
 //		model.addAttribute("listCategories",listCategories);
@@ -171,7 +171,7 @@ public class CategoryController {
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
 		
-		return "/categories/categories";
+		return "categories/categories";
 	}
 	
 	
