@@ -38,7 +38,7 @@ public class ProductController {
 	@Autowired
 	private  CategoryService categoryService;
 	
-	@GetMapping("/products")
+	@GetMapping("/products/")
 	public String listAll(Model model) {
 		return listByPage(1, model, "name", "asc", null, null);
 	}
